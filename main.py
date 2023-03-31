@@ -3,6 +3,7 @@ import openai
 import os
 import time
 from utils.recording import record_audio
+from utils.synthing import synth_speech, play_audio
 from dotenv import load_dotenv
 
 character_dict = {
@@ -52,12 +53,14 @@ def main():
         prompt = transcribe_audio(soundfile_name)
         end_time = time.time()
         print("time of whisper:", end_time - start_time)
-        speak(prompt)
+        #speak(prompt)
         start_time2 = time.time()
         reply = query_chatgpt(prompt)
         end_time2 = time.time()
         print("time of chatgpt:", end_time2 - start_time2)
-        speak(reply)
+        #speak(reply)
+        synth_speech(reply)
+        play_audio()
 
 if __name__ == '__main__':
     main()
