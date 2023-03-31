@@ -1,33 +1,21 @@
 # Note: you need to be using OpenAI Python v0.27.0 for the code below to work
 import openai
 import os
-import sounddevice as sd
-from scipy.io.wavfile import write
+import time
+from utils.recording import record_audio
 from dotenv import load_dotenv
 
+character_dict = {
+    "honeyBee": "speak in a sweet and friendly tone, like a cute honey bee",
+    "currywurst": "speak in a humorous, loud and cheecky tone, like a Berlin currywurst",
+    "treasureChest": "speak in a mysterious and dreamy way, like a treasure chest"
+}
 
 def speak(text):
     #voice = "-v 'Eddy (Deutsch (Deutschland))'"
     voice = ""
     print("\n " + text)
     os.system("say -r180 "+voice + " " + text)
-
-
-def record_audio(filename="output.wav"):
-    fs = 22050  # Sample rate
-    seconds = 10  # Duration of recording
-
-    print("\nUm eine Frage zu stellen, drücke die Eingabetaste.")
-    print("Drücke die Eingabetaste erneut, um die Frage zu beenden.")
-    input()
-    print("\nBegin recording...")
-    myrecording = sd.rec(int(seconds * fs), samplerate=fs,
-                         channels=1)
-    input()
-    sd.stop()
-    print("End recording")
-    write(filename, fs, myrecording)  # Save as WAV file
-
 
 def transcribe_audio(filename="output.wav"):
     audio_file = open(filename, "rb")
@@ -36,11 +24,10 @@ def transcribe_audio(filename="output.wav"):
     print(transcript.text)
     return transcript.text
 
-
 def query_chatgpt(prompt):
     messages = []
     messages.append(
-        {"role": "system", "content": "Be precise, be concise, be polite and positive."})
+        {"role": "system", "content": character_dict["treasureChest"]})
 
     message = prompt
     messages.append({"role": "user", "content": message})
@@ -51,7 +38,6 @@ def query_chatgpt(prompt):
     messages.append({"role": "assistant", "content": reply})
     return reply
 
-
 def main():
     os.system("clear")
     load_dotenv()
@@ -61,11 +47,17 @@ def main():
     print("Hallo ich bin der Awesomebot vom CityLAB Berlin!")
 
     while True:
-        record_audio(soundfile_name)
+        record_audio()
+        start_time = time.time()
         prompt = transcribe_audio(soundfile_name)
+        end_time = time.time()
+        print("time of whisper:", end_time - start_time)
+        speak(prompt)
+        start_time2 = time.time()
         reply = query_chatgpt(prompt)
+        end_time2 = time.time()
+        print("time of chatgpt:", end_time2 - start_time2)
         speak(reply)
-
 
 if __name__ == '__main__':
     main()
