@@ -3,7 +3,7 @@ import openai
 import os
 import time
 from utils.recording import record_audio
-from utils.synthing import synth_speech, play_audio
+from utils.gtts_synthing import synthing
 from dotenv import load_dotenv
 
 character_dict = {
@@ -18,7 +18,7 @@ def speak(text):
     print("\n " + text)
     os.system("say -r180 "+voice + " " + text)
 
-def transcribe_audio(filename="output.wav"):
+def transcribe_audio(filename="recording.wav"):
     audio_file = open(filename, "rb")
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
     print("Ich habe folgendes verstanden:")
@@ -28,7 +28,7 @@ def transcribe_audio(filename="output.wav"):
 def query_chatgpt(prompt):
     messages = []
     messages.append(
-        {"role": "system", "content": character_dict["treasureChest"]})
+        {"role": "system", "content": character_dict["honeyBee"]})
 
     message = prompt
     messages.append({"role": "user", "content": message})
@@ -39,11 +39,14 @@ def query_chatgpt(prompt):
     messages.append({"role": "assistant", "content": reply})
     return reply
 
+def play_audio():
+    os.system("afplay " + "output_gtts.mp3")
+
 def main():
     os.system("clear")
     load_dotenv()
     openai.api_key = os.getenv("OPENAI_API_KEY")
-    soundfile_name = "output.wav"
+    soundfile_name = "recording.wav"
 
     print("Hallo ich bin der Awesomebot vom CityLAB Berlin!")
 
@@ -59,7 +62,8 @@ def main():
         end_time2 = time.time()
         print("time of chatgpt:", end_time2 - start_time2)
         #speak(reply)
-        synth_speech(reply)
+        #request_speech(reply)
+        synthing(reply)
         play_audio()
 
 if __name__ == '__main__':
