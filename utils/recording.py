@@ -17,7 +17,8 @@ def record_audio():
                     input=True,
                     frames_per_buffer=CHUNK)
     
-    print("Stell mir eine Frage...")
+
+    print("Ok, Stell mir eine Frage...")
 
     # Wait for the user to start speaking
     while True:
@@ -45,4 +46,4 @@ def record_audio():
 
     # Convert the frames to a single audio file
     frames = np.concatenate(frames, axis=0)
-    write("output.wav", RATE, frames)
+    write("recording.wav", RATE, frames)
