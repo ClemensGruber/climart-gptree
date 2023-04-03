@@ -16,14 +16,16 @@ def main():
     os.system("clear")
     load_dotenv()
     
-    #choose your character: 0: Biene, 1: Roboter, 2: Kiri-Wurst, 3: Schatzkiste, 4: Yoda 
+    # Choose your character: 0: Biene, 1: Roboter, 2: Kiri-Wurst, 3: Schatzkiste, 4: Yoda 
     prompt = getPrompts()[3]
     
     chatgpt = ChatOpenAI(model_name='gpt-3.5-turbo', openai_api_key=os.getenv("OPENAI_API_KEY"), temperature=0)
     conversation = ConversationChain(llm=chatgpt, verbose=False, memory=ConversationBufferMemory(), prompt=prompt)
 
+    # Sending an empty user input first to let the AI start the conversation – this should be triggered by the RFID signal
     user_input = ""
     print(conversation.predict(input=user_input))
+
     while user_input.lower() != "q":
         user_input = input("Enter input (or 'q' to quit): ")
 
