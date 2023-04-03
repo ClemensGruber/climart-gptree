@@ -12,26 +12,29 @@ def getPrompts():
     prompts = [PromptTemplate(input_variables=['history', 'input'], output_parser=None, partial_variables={}, template=template) for template in prompt_templates]
     return prompts
 
-def main():
-    os.system("clear")
-    load_dotenv()
-    
-    # Choose your character: 0: Biene, 1: Roboter, 2: Kiri-Wurst, 3: Schatzkiste, 4: Yoda 
-    prompt = getPrompts()[3]
-    
-    chatgpt = ChatOpenAI(model_name='gpt-3.5-turbo', openai_api_key=os.getenv("OPENAI_API_KEY"), temperature=0)
-    conversation = ConversationChain(llm=chatgpt, verbose=False, memory=ConversationBufferMemory(), prompt=prompt)
-
-    # Sending an empty user input first to let the AI start the conversation – this should be triggered by the RFID signal
+def makeConversation(chain):
     user_input = ""
-    print(conversation.predict(input=user_input))
+     # Sending an empty user input first to let the AI start the conversation – this should be triggered by the RFID signal
+    print(chain.predict(input=user_input))
 
     while user_input.lower() != "q":
         user_input = input("Enter input (or 'q' to quit): ")
 
         if user_input.lower() != "q":
-            reply = conversation.predict(input=user_input)
+            reply = chain.predict(input=user_input)
             print(reply)
 
+
+def main():
+    os.system("clear")
+    load_dotenv()
+    
+    # Choose your character: 0: Biene, 1: Roboter, 2: Kiri-Wurst, 3: Schatzkiste, 4: Yoda 
+    prompt = getPrompts()[4]
+    
+    chatgpt = ChatOpenAI(model_name='gpt-3.5-turbo', openai_api_key=os.getenv("OPENAI_API_KEY"), temperature=0)
+    chain = ConversationChain(llm=chatgpt, verbose=False, memory=ConversationBufferMemory(), prompt=prompt)
+    makeConversation(chain)
+    
 if __name__ == '__main__':
     main()
