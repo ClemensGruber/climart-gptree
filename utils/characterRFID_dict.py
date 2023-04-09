@@ -1,3 +1,14 @@
+
+# This function reads in either an RFID Code or a Keyboard input from 1-5 and 
+# returns the character code for use in the character_prompts.py
+# Current character codes:
+# 0: KiKi, die Biene
+# 1: RoKi, der Roboter
+# 2: KiRi-Wurst
+# 3: Schaki, die Schatztruhe
+# 4: Kleine grüne Mann aka Yoda 
+
+
 def getCharacter(code):
     characterRFID = {
     "1":0,
