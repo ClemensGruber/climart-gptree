@@ -6,3 +6,4 @@ pyaudio==0.2.13
 numpy==1.21.0
 scipy==1.7.3
 python-dotenv==0.21.1
+langchain==0.0.135
