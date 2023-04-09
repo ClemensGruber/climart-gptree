@@ -40,7 +40,7 @@ def synthing(text):
     # specific config for the honeybee voice
     audio_config = texttospeech.AudioConfig(
         audio_encoding=texttospeech.AudioEncoding.MP3, 
-        speaking_rate=1.4, 
+        speaking_rate=1.2, 
         pitch=7
     )
 
