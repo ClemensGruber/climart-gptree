@@ -25,7 +25,7 @@ def getCharacter(code):
     if code in characterRFID:
         return characterRFID[code]
     else:
-        return "Invalid character code"
+        return "Invalid character code " + code
 
 
 def getPrompt(key):
