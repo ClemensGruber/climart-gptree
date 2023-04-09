@@ -7,20 +7,13 @@ from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferMemory
 from utils.gtts_synthing import synthing
 from utils.characterRFID_dict import getCharacter
-
-def getPrompt(key):
-    with open("tests/memory/characters.txt", "r", encoding="utf-8") as file:
-        prompt_templates = [line.strip() for line in file.readlines()]
-    prompts = [PromptTemplate(input_variables=['history', 'input'], output_parser=None, partial_variables={}, template=template) for template in prompt_templates]
-    return prompts[key]
-
+from utils.character_prompts import getPrompt
 
 def makeConversation(chain):
      # Sending an empty user input first to let the AI start the conversation
     user_input = ""
     
     # greeting audio is in a subprocess in order not to block the main thread 
-
     subprocess.Popen(["afplay", "audio/bee_greetings.mp3"])
     
     reply = chain.predict(input=user_input)
@@ -30,6 +23,7 @@ def makeConversation(chain):
         user_input = input("Enter input (or 'q' to quit): ")
 
         if user_input.lower() != "q":
+            # Play some local audio to shorten the waiting time while we wait for synthing
             subprocess.Popen(["afplay", "audio/bee_wait.mp3"])
             reply = chain.predict(input=user_input)
             print(reply)
