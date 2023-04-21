@@ -13,6 +13,9 @@ We use a Python script to send a voice recording of user to multiple Artificial 
 - [Whisper AI](https://openai.com/research/whisper) for speech-to-text
 - [ChatGPT 3.5](https://platform.openai.com/docs/models/gpt-3-5) as LLM that generates an answer
 
+- [Google Text-To-Speech](https://cloud.google.com/text-to-speech) to let the answer sound like a real character
+
+
 ## Setup Environment
 To install the requirements (globally) run:
 `pip install -r requirements.txt` to install missing requirements
@@ -57,4 +60,3 @@ That's it!
     </td>
   </tr>
 </table>
-
