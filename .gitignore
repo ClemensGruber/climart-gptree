@@ -25,4 +25,7 @@ venv/
 myenv/
 
 .DS_Store
+__pycache__/
 
+# project specific
+recording.wav
