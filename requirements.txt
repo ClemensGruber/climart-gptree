@@ -1,5 +1,4 @@
 openai==0.27.2
-elevenlabs==0.1.
 google-cloud-texttospeech==2.14.1
 gTTS==2.3.1
 pyaudio==0.2.13

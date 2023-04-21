@@ -2,7 +2,6 @@ import os
 import subprocess
 from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
-from langchain import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferMemory
 from utils.gtts_synthing import synthing
