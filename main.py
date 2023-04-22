@@ -1,7 +1,7 @@
 # Kiezbot
 # Conversational bot for the CityLAB Berlin
 
-import os, subprocess
+import os, subprocess, random
 from dotenv import load_dotenv
 import openai
 from utils.helpers import *
@@ -18,6 +18,7 @@ def transcribe_audio(filename):
 # ------------------------------
 
 def main():
+    print("Optionen: 1 = Biene, 2 = Roboter")
     # Load environment variables from .env file
     load_dotenv()
     openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -32,9 +33,14 @@ def main():
         if code == "q":
             break
         else:
-            persona = personas[code]
-            if persona["name"] == "Biene":
-                subprocess.Popen(["afplay", "audio/personas/bee/greetings.mp3"])
+            # check if code has a persona
+            # and greet the user
+            if code in personas:
+              persona = personas[code]
+              greetings = "audio/personas/" + persona["path"] + "/" + random.choice(persona["greetings"])
+              subprocess.Popen(["afplay", greetings])
+            else:
+                print("Input not recognized: "+ code)
 
     #transcribe_audio(filename_input)
     # greeting audio is in a subprocess in order not to block the main thread 
