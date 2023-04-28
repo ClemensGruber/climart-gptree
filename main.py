@@ -1,37 +1,26 @@
-# Note: you need to be using OpenAI Python v0.27.0 for the code below to work
-import openai
-import os
-import time
-from utils.recording import record_audio
-from utils.gtts_synthing import synthing
+# Kiezbot
+# Conversational bot for the CityLAB Berlin
+
+import os, subprocess, random
 from dotenv import load_dotenv
+import openai
+from utils.helpers import *
 
-character_dict = {
-    "honeyBee": "speak in a sweet and friendly tone, like a cute honey bee",
-    "currywurst": "speak in a humorous, loud and cheecky tone, like a Berlin currywurst",
-    "treasureChest": "speak in a mysterious and dreamy way, like a treasure chest"
-}
 
-def speak(text):
-    #voice = "-v 'Eddy (Deutsch (Deutschland))'"
-    voice = ""
-    print("\n " + text)
-    os.system("say -r180 "+voice + " " + text)
-
-def transcribe_audio(filename="recording.wav"):
+def transcribe_audio(filename):
     audio_file = open(filename, "rb")
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
-    print("Ich habe folgendes verstanden:")
-    print(transcript.text)
     return transcript.text
 
-def query_chatgpt(prompt):
+def display(text):
+    print(text)
+
+def query_chatgpt(text,persona):
     messages = []
     messages.append(
-        {"role": "system", "content": character_dict["honeyBee"]})
+        {"role": "system", "content": persona["prompt"]})
 
-    message = prompt
-    messages.append({"role": "user", "content": message})
+    messages.append({"role": "user", "content": text})
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=messages)
@@ -39,32 +28,55 @@ def query_chatgpt(prompt):
     messages.append({"role": "assistant", "content": reply})
     return reply
 
-def play_audio():
-    os.system("afplay " + "output_gtts.mp3")
+# ------------------------------
 
 def main():
-    os.system("clear")
+    print("Optionen: 1 = Biene, 2 = Roboter")
+    # Load environment variables from .env file
     load_dotenv()
     openai.api_key = os.getenv("OPENAI_API_KEY")
-    soundfile_name = "recording.wav"
 
-    print("Hallo ich bin der Awesomebot vom CityLAB Berlin!")
+    # config
+    filename_input = "audio/input.wav"
+    filename_output = "audio/output.mp3"
+    personas = load_json("personas.json")
 
     while True:
-        record_audio()
-        start_time = time.time()
-        prompt = transcribe_audio(soundfile_name)
-        end_time = time.time()
-        print("time of whisper:", end_time - start_time)
-        #speak(prompt)
-        start_time2 = time.time()
-        reply = query_chatgpt(prompt)
-        end_time2 = time.time()
-        print("time of chatgpt:", end_time2 - start_time2)
-        #speak(reply)
-        #request_speech(reply)
-        synthing(reply)
-        play_audio()
+        code = input()
+
+        if code == "q":
+            display("Programm beendet.")
+            break
+        else:
+            # check if code has a persona
+            # and greet the user
+            if code in personas:
+              persona = personas[code]
+              greetings = "audio/personas/" + persona["path"] + "/" + random.choice(persona["greetings"])
+              subprocess.Popen(["afplay", greetings])
+            else:
+                display("Input not recognized: "+ code)
+
+            # record audio
+            # todo: implement Julias code
+
+            # transcribe audio to text with whisper-1 model
+            user_text = transcribe_audio(filename_input)
+            display(user_text)
+
+            # generate response from text with GPT-3 model
+            ai_response = query_chatgpt(user_text,persona)
+            display(ai_response)
+
+            # convert response to audio with google text-to-speech model
+            # todo: implement Julias code
+
+            # play audio response
+            subprocess.Popen(["afplay", filename_output])
+
+    
+   
+# ------------------------------
 
 if __name__ == '__main__':
     main()
