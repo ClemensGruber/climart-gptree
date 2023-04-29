@@ -2,11 +2,11 @@ import pyaudio
 from scipy.io.wavfile import write
 import numpy as np
 
-def record_audio():
+def record_audio(filename):
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
-    RATE = 44100
+    RATE = 22050  # samples per second
     THRESHOLD = 1000  # Adjust this value to set the sensitivity of the voice detection
     SILENCE_LIMIT = 1.1  # Number of seconds of silence before stopping the recording
 
@@ -16,9 +16,6 @@ def record_audio():
                     rate=RATE,
                     input=True,
                     frames_per_buffer=CHUNK)
-    
-
-    print("Ok, Stell mir eine Frage...")
 
     # Wait for the user to start speaking
     while True:
@@ -39,11 +36,10 @@ def record_audio():
         if silent_frames > SILENCE_LIMIT * RATE / CHUNK:
             break
 
-    print("Aufnahme erfolgreich!")
     stream.stop_stream()
     stream.close()
     p.terminate()
 
     # Convert the frames to a single audio file
     frames = np.concatenate(frames, axis=0)
-    write("recording.wav", RATE, frames)
+    write(filename, RATE, frames)

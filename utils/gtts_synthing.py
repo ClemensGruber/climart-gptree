@@ -18,7 +18,7 @@
 """Google Cloud Text-To-Speech API sample application .
 """
 
-def synthing(text):
+def synthing(text,filename):
     """Synthesizes speech from the input string of text or ssml.
     Make sure to be working in a virtual environment.
 
@@ -50,11 +50,9 @@ def synthing(text):
     )
 
     # The response's audio_content is binary.
-    with open("output_gtts.mp3", "wb") as out:
+    with open(filename, "wb") as out:
         # Write the response to output_gtts file.
         out.write(response.audio_content)
-        print('Audio content written to file "output_gtts.mp3"')
-    # [END tts_quickstart]
 
 if __name__ == "__main__":
     synthing(text="Hello, you cute little honeybee.")

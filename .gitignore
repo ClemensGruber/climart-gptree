@@ -28,4 +28,5 @@ myenv/
 __pycache__/
 
 # project specific
-recording.wav
+audio/input.wav
+audio/output.mp3
