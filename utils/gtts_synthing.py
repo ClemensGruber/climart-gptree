@@ -1,24 +1,16 @@
-#!/usr/bin/env python
-# Copyright 2018 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-# All Rights Reserved.
+# text to speech api for kiezbot
+# expects: text, filename, settings
+# returns: audio file
 
 """Google Cloud Text-To-Speech API sample application .
 """
 
-def synthing(text,filename):
+def string_to_enum(enum_class, enum_string):
+    enum_parts = enum_string.split('.')
+    enum_obj = getattr(enum_class, enum_parts[-1])
+    return enum_obj
+
+def synthing(text,filename,settings):
     """Synthesizes speech from the input string of text or ssml.
     Make sure to be working in a virtual environment.
 
@@ -32,16 +24,18 @@ def synthing(text,filename):
     # text input to be synthesized
     synthesis_input = texttospeech.SynthesisInput(text=text)
 
+    ssml_gender = string_to_enum(texttospeech.SsmlVoiceGender, settings["ssml_gender"])
+
     # select a language, model and gender 
     voice = texttospeech.VoiceSelectionParams(
-        language_code="de-DE", name="de-DE-Neural2-F", ssml_gender=texttospeech.SsmlVoiceGender.FEMALE
+        language_code=settings["language_code"], name=settings["name"], ssml_gender=ssml_gender
     )
 
     # specific config for the honeybee voice
     audio_config = texttospeech.AudioConfig(
         audio_encoding=texttospeech.AudioEncoding.MP3, 
-        speaking_rate=1.2, 
-        pitch=7
+        speaking_rate=settings["speaking_rate"], 
+        pitch=settings["pitch"]
     )
 
     # Perform the text-to-speech request
@@ -53,6 +47,3 @@ def synthing(text,filename):
     with open(filename, "wb") as out:
         # Write the response to output_gtts file.
         out.write(response.audio_content)
-
-if __name__ == "__main__":
-    synthing(text="Hello, you cute little honeybee.")

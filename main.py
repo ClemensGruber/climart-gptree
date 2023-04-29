@@ -4,9 +4,6 @@
 import os, subprocess, random, time
 from dotenv import load_dotenv
 import openai
-import pyaudio
-from scipy.io.wavfile import write
-import numpy as np
 from utils.helpers import *
 from utils.recording import record_audio
 from utils.gtts_synthing import synthing
@@ -61,8 +58,10 @@ def main():
             # and greet the user
             if code in personas:
               persona = personas[code]
-              greetings = "audio/personas/" + persona["path"] + "/" + random.choice(persona["greetings"])
-              # os.system("afplay " + greetings)
+
+              greetings = "audio/personas/" + persona["path"] + "/" +  random.choice(persona["greetings"])["filename"]
+              print(greetings)
+              os.system("afplay " + greetings)
             else:
                 display("Input not recognized: "+ code)
 
@@ -72,7 +71,7 @@ def main():
             display("recording stopped.")
 
             # play wait sound while api calls are made
-            wait = "audio/personas/" + persona["path"] + "/" + random.choice(persona["wait"])
+            wait = "audio/personas/" + persona["path"] + "/" + random.choice(persona["wait"])["filename"]
             subprocess.Popen(["afplay", wait])
 
             # transcribe audio to text with whisper-1 model
@@ -84,7 +83,7 @@ def main():
             display(ai_response)
 
             # convert response to audio with google text-to-speech model
-            synthing(ai_response,filename_output)
+            synthing(ai_response,filename_output,persona["tts_settings"])
 
             # play audio response
             subprocess.Popen(["afplay", filename_output])
