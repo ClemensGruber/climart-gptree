@@ -11,7 +11,7 @@
     },
     "greetings": [
       {"text":"Hallo ich bin die Biene!", "filename":"greetings1.mp3"},
-      {"text":"Summ summ summ ich bin Berline die freundliche Biene", "filename":"greetings1.mp3"}
+      {"text":"Summ summ summ ich bin Berline die freundliche Biene", "filename":"greetings2.mp3"}
     ],
     "idle": [
       {"text":"Hmmm, ich liebe Blütennektar! Und Du?", "filename":"idle1.mp3"},
@@ -35,7 +35,7 @@
     },
     "greetings": [
       {"text":"01101 hier ist der Roboter.", "filename":"greetings1.mp3"},
-      {"text":"Ich fahre mein System hoch, guten Tag!", "filename":"greetings1.mp3"}
+      {"text":"Ich fahre mein System hoch, guten Tag!", "filename":"greetings2.mp3"}
     ],
     "idle": [
       {"text":"Ich brauche einen Bildschirmschoner", "filename":"idle1.mp3"},
@@ -59,7 +59,7 @@
       },
       "greetings": [
         {"text":"Ich bin die Currywurst!", "filename":"greetings1.mp3"},
-        {"text":"Hm lecker Currywurst!", "filename":"greetings1.mp3"}
+        {"text":"Hm lecker Currywurst!", "filename":"greetings2.mp3"}
       ],
       "idle": [
         {"text":"Frag mich doch mal was...", "filename":"idle1.mp3"},
