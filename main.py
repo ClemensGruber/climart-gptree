@@ -17,6 +17,7 @@ def transcribe_audio(filename):
     return transcript.text
 
 def display(text):
+    os.system('clear')
     print(text)
 
 def query_chatgpt(text,persona):
@@ -65,28 +66,32 @@ def main():
             else:
                 display("Input not recognized: "+ code)
 
-            # record audio
-            display("recording...")
-            record_audio(filename_input)
-            display("recording stopped.")
+            while True:
+                # record audio
+                display("recording...")
+                record_audio(filename_input)
+                display("recording stopped.")
 
-            # play wait sound while api calls are made
-            wait = "audio/personas/" + persona["path"] + "/" + random.choice(persona["wait"])["filename"]
-            subprocess.Popen(["afplay", wait])
+                # play wait sound while api calls are made
+                wait = "audio/personas/" + persona["path"] + "/" + random.choice(persona["wait"])["filename"]
+                subprocess.Popen(["afplay", wait])
 
-            # transcribe audio to text with whisper-1 model
-            user_text = transcribe_audio(filename_input)
-            display(user_text)
+                # transcribe audio to text with whisper-1 model
+                user_text = transcribe_audio(filename_input)
+                display(user_text)
 
-            # generate response from text with GPT-3 model
-            ai_response = query_chatgpt(user_text,persona)
-            display(ai_response)
+                if "Ende" not in user_text:
+                    # generate response from text with GPT-3 model
+                    ai_response = query_chatgpt(user_text,persona)
+                    display(ai_response)
 
-            # convert response to audio with google text-to-speech model
-            synthing(ai_response,filename_output,persona["tts_settings"])
+                    # convert response to audio with google text-to-speech model
+                    synthing(ai_response,filename_output,persona["tts_settings"])
 
-            # play audio response
-            subprocess.Popen(["afplay", filename_output])
+                    # play audio response
+                    os.system("afplay " + filename_output)
+                else:
+                    main()
 
     
    
