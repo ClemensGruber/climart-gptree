@@ -20,18 +20,22 @@ def display(text):
     os.system('clear')
     print(text)
 
-def query_chatgpt(text,persona):
+def query_chatgpt(text,system,history):
     start = time.time()
+    MAX_CONTEXT_QUESTIONS = 10
     messages = []
     messages.append(
-        {"role": "system", "content": persona["prompt"]})
+        {"role": "system", "content": system})
+    
+    for question, answer in history[-MAX_CONTEXT_QUESTIONS:]:
+        messages.append({ "role": "user", "content": question })
+        messages.append({ "role": "assistant", "content": answer })
 
     messages.append({"role": "user", "content": text})
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=messages)
     reply = response["choices"][0]["message"]["content"]
-    messages.append({"role": "assistant", "content": reply})
     display("ChatGPT took " + str(time.time() - start) + " seconds.")
     return reply
 
@@ -49,6 +53,7 @@ def main():
     personas = load_json("personas.json")
 
     while True:
+        history = []
         code = input()
 
         if code == "q":
@@ -82,7 +87,8 @@ def main():
 
                 if "Ende" not in user_text:
                     # generate response from text with GPT-3 model
-                    ai_response = query_chatgpt(user_text,persona)
+                    ai_response = query_chatgpt(user_text,persona["prompt"],history)
+                    history.append((user_text, ai_response))
                     display(ai_response)
 
                     # convert response to audio with google text-to-speech model
