@@ -25,6 +25,7 @@ venv/
 myenv/
 
 .DS_Store
+.vscode/
 __pycache__/
 
 # project specific
