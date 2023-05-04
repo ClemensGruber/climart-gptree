@@ -16,7 +16,7 @@ def generate_audio(personas,type="greetings"):
       
       for item in persona[type]:
         text = item["text"]
-        filename = "./audio/personas/" + persona["path"] + "/" + item["filename"]
+        filename = "../audio/personas/" + persona["path"] + "/" + item["filename"]
         print(text)
         print(filename)
         synthing(text, filename, settings)
