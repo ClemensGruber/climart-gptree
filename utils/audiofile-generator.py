@@ -6,7 +6,7 @@
 # exports: audio files in the audio/personas folder
 # needs to run manually only when new files should be generated
 
-from helpers import *
+from helpers import load_json
 from gtts_synthing import synthing
 
 def generate_audio(personas,type="greetings"):
@@ -16,13 +16,14 @@ def generate_audio(personas,type="greetings"):
       
       for item in persona[type]:
         text = item["text"]
-        filename = "../audio/personas/" + persona["path"] + "/" + item["filename"]
+        filename = "./audio/personas/" + persona["path"] + "/" + item["filename"]
         print(text)
         print(filename)
         synthing(text, filename, settings)
 
 if __name__ == "__main__":
     personas = load_json("../personas.json")
-    generate_audio(personas,"greetings")
-    generate_audio(personas,"idle")
-    generate_audio(personas,"wait")
+    generate_audio(personas,type="greetings")
+    generate_audio(personas,type="idle")
+    generate_audio(personas,type="wait")
+    generate_audio(personas,type="bye")

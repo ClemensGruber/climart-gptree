@@ -4,7 +4,7 @@
 import os, subprocess, random, time
 from dotenv import load_dotenv
 import openai
-from utils.helpers import *
+from utils.helpers import load_json
 from utils.recording import record_audio
 from utils.gtts_synthing import synthing
 
@@ -97,9 +97,9 @@ def main():
                     # play audio response
                     os.system("afplay " + filename_output)
                 else:
+                    byebye = "audio/personas/" + persona["path"] + "/" + random.choice(persona["bye"])["filename"]
+                    subprocess.Popen(["afplay", byebye])
                     main()
-
-    
    
 # ------------------------------
 
