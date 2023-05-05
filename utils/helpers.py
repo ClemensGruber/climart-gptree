@@ -1,4 +1,4 @@
-import json, os,sys
+import json, os,sys, time
 
 def load_json(filename):
     file_path = os.path.join(sys.path[0], filename)
@@ -57,3 +57,13 @@ def display(text: str, x: int = None, y: int = None, color: str = None) -> None:
 
     # Schreibt den Text an die Position mit der angegebenen Farbe
     print(f"{position}{color_code}{text}{colors['reset']}")
+
+
+def time_it(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        print(f"{func.__name__} dauerte {end - start} Sekunden.")
+        return result
+    return wrapper

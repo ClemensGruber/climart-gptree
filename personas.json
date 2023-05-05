@@ -13,10 +13,6 @@
       {"text":"Hallo ich bin die Biene! Frage mich doch was zur Natur!", "filename":"greetings1.mp3"},
       {"text":"Summ summ summ ich bin Kiki die freundliche Biene. Was möchtest Du wissen?", "filename":"greetings2.mp3"}
     ],
-    "idle": [
-      {"text":"Hmmm, ich liebe Blütennektar! Und Du?", "filename":"idle1.mp3"},
-      {"text":"Magst Du Blumenwiesen?", "filename":"idle2.mp3"}
-    ],
     "wait": [
       {"text":"Ich überlege, einen Augenblick, summ!", "filename":"wait1.mp3"},
       {"text":"summ summ, ich muss kurz überlegen!", "filename":"wait2.mp3"},
@@ -44,11 +40,7 @@
     "greetings": [
       {"text":"01101 hier ist der Roboter. Wie kann ich helfen?", "filename":"greetings1.mp3"},
       {"text":"Ich fahre mein System hoch, guten Tag! Was wünscht Du?", "filename":"greetings2.mp3"},
-      {"text":"Roboter Roki betriebsbereit. Erwarte Anweisungen", "filename":"greetings3.mp3"}
-    ],
-    "idle": [
-      {"text":"Ich brauche einen Bildschirmschoner", "filename":"idle1.mp3"},
-      {"text":"Frag einen allwissenden Roboter eine Frage!", "filename":"idle2.mp3"}
+      {"text":"Roboter Roki betriebsbereit. Erwarte Anweisungen!", "filename":"greetings3.mp3"}
     ],
     "wait": [
       {"text":"Einen Augenblick, ich lösche das Internet, ha ha ha...", "filename":"wait1.mp3"},
@@ -76,10 +68,6 @@
         {"text":"Ich bin die Currywurst! Willst Du was über Berlin wissen?", "filename":"greetings1.mp3"},
         {"text":"Hm lecker Currywurst! Magst Du Currywurst?", "filename":"greetings2.mp3"},
         {"text":"Tach. Welche Frage möchtest Du der allwissenden Berliner Currywurst stellen?", "filename":"greetings3.mp3"}
-      ],
-      "idle": [
-        {"text":"Frag mich doch mal was...", "filename":"idle1.mp3"},
-        {"text":"Wo habe ich nur meine Serviette gelassen...", "filename":"idle2.mp3"}
       ],
       "wait": [
         {"text":"Aha. Na gut, ich überlege...", "filename":"wait1.mp3"},

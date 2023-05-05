@@ -4,20 +4,19 @@
 import os, subprocess, random, time
 from dotenv import load_dotenv
 import openai
-from utils.helpers import display, load_json, clear
+from utils.helpers import display, load_json, clear, time_it
 from utils.recording import record_audio
 from utils.gtts_synthing import synthing
 
+@time_it
 def transcribe_audio(filename):
-    start = time.time()
     audio_file = open(filename, "rb")
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
-    display("Transcription took " + str(time.time() - start) + " seconds.")
     return transcript.text
 
-    
+
+@time_it
 def query_chatgpt(text,system,history):
-    start = time.time()
     MAX_CONTEXT_QUESTIONS = 10
     messages = []
     messages.append(
@@ -32,7 +31,6 @@ def query_chatgpt(text,system,history):
         model="gpt-3.5-turbo",
         messages=messages)
     reply = response["choices"][0]["message"]["content"]
-    display("ChatGPT took " + str(time.time() - start) + " seconds.")
     return reply
 
 # ------------------------------
@@ -50,6 +48,8 @@ def main():
     USER = "yellow"
     BOT = "white"
     ERROR = "red"
+
+    end_words = ["Ende","Auf Wiedersehen","Wechseln","Tschüss","Bye","End","Quit","Exit"]
 
     clear()
     display("Hallo, ich bin der Kietbot!", color=SYSTEM)
@@ -87,8 +87,8 @@ def main():
                 # transcribe audio to text with whisper-1 model
                 user_text = transcribe_audio(filename_input)
                 display("\n"+ user_text,color=USER)
-
-                if "Ende" not in user_text:
+                
+                if not any(word in user_text for word in end_words):
                     # play wait sound while api calls are made
                     random_selection = persona["wait"][random.randint(0,len(persona["wait"])-1)]
                     file = "audio/personas/" + persona["path"] + "/" +  random_selection["filename"]
