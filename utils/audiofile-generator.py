@@ -24,6 +24,5 @@ def generate_audio(personas,type="greetings"):
 if __name__ == "__main__":
     personas = load_json("../personas.json")
     generate_audio(personas,type="greetings")
-    generate_audio(personas,type="idle")
     generate_audio(personas,type="wait")
     generate_audio(personas,type="bye")
