@@ -4,7 +4,7 @@
 import os, subprocess, random, time
 from dotenv import load_dotenv
 import openai
-from utils.helpers import display, load_json, clear, time_it
+from utils.helpers import display, load_json, clear, time_it, play_sound
 from utils.recording import record_audio
 from utils.gtts_synthing import synthing
 
@@ -49,7 +49,7 @@ def main():
     BOT = "white"
     ERROR = "red"
 
-    end_words = ["Ende","Auf Wiedersehen","Wechseln","Tschüss","Bye","End","Quit","Exit"]
+    end_words = ["Ende","Auf Wiedersehen","Wechseln","Tschüss","Bye","End","Quit","Exit","end."]
 
     clear()
     display("Hallo, ich bin der Kietbot!", color=SYSTEM)
@@ -73,7 +73,7 @@ def main():
                 random_selection = persona["greetings"][random.randint(0,len(persona["greetings"])-1)]
                 file = "audio/personas/" + persona["path"] + "/" +  random_selection["filename"]
                 display("\n" + random_selection["text"], color=BOT)
-                os.system("afplay " + file)
+                play_sound(file)
                 
             else:
                 display("Input not recognized: "+ code, color=ERROR)
@@ -93,7 +93,7 @@ def main():
                     random_selection = persona["wait"][random.randint(0,len(persona["wait"])-1)]
                     file = "audio/personas/" + persona["path"] + "/" +  random_selection["filename"]
                     display(random_selection["text"], color=BOT)
-                    subprocess.Popen(["afplay", file])
+                    play_sound(file,False)
 
                     # generate response from text with GPT-3 model
                     ai_response = query_chatgpt(user_text,persona["prompt"],history)
@@ -104,13 +104,13 @@ def main():
                     synthing(ai_response,filename_output,persona["tts_settings"])
 
                     # play audio response
-                    os.system("afplay " + filename_output)
+                    play_sound(filename_output)
                 
                 else:
                     random_selection = persona["bye"][random.randint(0,len(persona["bye"])-1)]
                     file = "audio/personas/" + persona["path"] + "/" +  random_selection["filename"]
                     display(random_selection["text"], color=BOT)
-                    os.system("afplay " + file)
+                    play_sound(file)
                     main()
    
 # ------------------------------

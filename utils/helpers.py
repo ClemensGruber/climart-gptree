@@ -1,4 +1,4 @@
-import json, os,sys, time
+import json, os,sys, time, platform, subprocess
 
 def load_json(filename):
     file_path = os.path.join(sys.path[0], filename)
@@ -57,6 +57,35 @@ def display(text: str, x: int = None, y: int = None, color: str = None) -> None:
 
     # Schreibt den Text an die Position mit der angegebenen Farbe
     print(f"{position}{color_code}{text}{colors['reset']}")
+
+
+def play_sound(filename, blocking=True):
+    """
+    Spielt eine Sounddatei unter Verwendung des entsprechenden Audioplayers ab,
+    abhängig vom Betriebssystem.
+    
+    Argumente:
+    - filename: Der Dateiname der Sounddatei.
+    - blocking (optional): Gibt an, ob die Wiedergabe blockierend ist oder nicht.
+                           Standardmäßig ist es True, was bedeutet, dass die Funktion
+                           erst zurückkehrt, wenn die Wiedergabe abgeschlossen ist.
+                           Wenn es auf False gesetzt wird, wird die Wiedergabe im Hintergrund
+                           gestartet und die Funktion kehrt sofort zurück.
+    """
+    current_os = platform.system()
+    
+    if current_os == 'Linux':
+        audio_lib = "aplay"  
+    elif current_os == 'Darwin':
+        audio_lib = "afplay"
+    else:
+        print("Unsupported operating system.")
+        return
+    
+    if blocking:
+        os.system(audio_lib + " " + filename)
+    else:
+        subprocess.Popen([audio_lib, filename])
 
 
 def time_it(func):
