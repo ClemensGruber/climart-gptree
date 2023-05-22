@@ -1,5 +1,5 @@
 import pyaudio
-from scipy.io.wavfile import write
+import soundfile as sf
 import numpy as np
 
 def record_audio(filename):
@@ -42,4 +42,4 @@ def record_audio(filename):
 
     # Convert the frames to a single audio file
     frames = np.concatenate(frames, axis=0)
-    write(filename, RATE, frames)
+    sf.write(filename, frames, RATE)
