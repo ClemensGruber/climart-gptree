@@ -76,7 +76,7 @@ def play_sound(filename, blocking=True):
     
     if current_os == 'Linux':
         audio_lib = "mpg123"
-        params = " -q"  
+        params = "-q"  
     elif current_os == 'Darwin':
         audio_lib = "afplay"
         params = ""
@@ -87,7 +87,7 @@ def play_sound(filename, blocking=True):
     if blocking:
         os.system(audio_lib + params + " " + filename)
     else:
-        subprocess.Popen([audio_lib + params, filename])
+        subprocess.Popen(f"{audio_lib} {params} {filename}", shell=True)
 
 
 def time_it(func):
