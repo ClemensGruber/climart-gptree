@@ -1,7 +1,7 @@
 # Kiezbot
 # Conversational bot for the CityLAB Berlin
 
-import os, subprocess, random, time
+import os, random
 from dotenv import load_dotenv
 import openai
 from utils.helpers import display, load_json, clear, time_it, play_sound

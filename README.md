@@ -1,3 +1,7 @@
+# libs to install
+`sudo apt install mpg123` (mp3 player for Linux)
+
+
 ![](https://img.shields.io/badge/Built%20with%20%E2%9D%A4%EF%B8%8F-at%20Technologiestiftung%20Berlin-blue)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
