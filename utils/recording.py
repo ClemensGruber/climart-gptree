@@ -1,6 +1,7 @@
 import pyaudio
 import soundfile as sf
 import numpy as np
+import sounddevice
 
 def record_audio(filename):
     CHUNK = 1024
