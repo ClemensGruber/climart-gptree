@@ -1,7 +1,7 @@
 import pyaudio
 import soundfile as sf
 import numpy as np
-import sounddevice
+import sounddevice # needed to suppres linux error messsages in terminal
 
 def record_audio(filename):
     CHUNK = 1024

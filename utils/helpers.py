@@ -75,7 +75,7 @@ def play_sound(filename, blocking=True):
     current_os = platform.system()
     
     if current_os == 'Linux':
-        audio_lib = "mpg123 -q"  
+        audio_lib = "mpg123"  
     elif current_os == 'Darwin':
         audio_lib = "afplay"
     else:
