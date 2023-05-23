@@ -43,7 +43,7 @@ def add_line_breaks(text, cols):
         return [text]
     
 def chat_bubble(text,who=None,align="left"):
-    cols = 50 # Breite der Chatbubble
+    cols = 55 # Breite der Chatbubble
     text = add_line_breaks(text, cols)
     bubble = ""
 
