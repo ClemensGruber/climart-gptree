@@ -51,6 +51,7 @@ def main():
 
     end_words = ["Ende","Auf Wiedersehen","Wechseln","Tschüss","Bye","End","Quit","Exit","end."]
 
+    play_sound("audio/boot/"+str(random.randint(1,7))+".mp3",False)
     clear()
     display("Hallo, ich bin der Kietbot!", color=SYSTEM)
     display("Bitte wähle eine Persona aus (1-3)", color=SYSTEM)
