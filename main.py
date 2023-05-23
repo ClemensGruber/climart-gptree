@@ -4,7 +4,7 @@
 import os, random
 from dotenv import load_dotenv
 import openai
-from utils.helpers import display, load_json, clear, time_it, play_sound, chat_bubble, welcome
+from utils.helpers import display, load_json, clear, time_it, play_sound, chat_bubble, chat_bubble_user, welcome
 from utils.recording import record_audio
 from utils.gtts_synthing import synthing
 
@@ -55,10 +55,9 @@ def main():
     clear()
 
     display(welcome(), color=SYSTEM)
-    chat_bubble(text="Hallo, ich bin der Kiezbot!\nBitte wähle eine Persona aus (1-3)\nSage 'Ende', wenn Du das Gespräch beenden möchtest. \nViel Spaß!",who="Kiezbot")
+    chat_bubble(text="Hallo, ich bin der Kiezbot!\nBitte wähle eine Persona aus.\nSprich 'Ende', wenn Du das Gespräch beenden möchtest. \nViel Spaß!",who="Kiezbot")
     
-    
-    display("\nOptionen: 1 = Biene, 2 = Roboter, 3 = Currywurst", color=SYSTEM)
+    display("Optionen: 1 = Biene, 2 = Roboter, 3 = Currywurst", color=SYSTEM)
 
     while True:
         history = []
@@ -74,7 +73,7 @@ def main():
                 persona = personas[code]
                 random_selection = persona["greetings"][random.randint(0,len(persona["greetings"])-1)]
                 file = "audio/personas/" + persona["path"] + "/" +  random_selection["filename"]
-                display("\n" + random_selection["text"], color=BOT)
+                chat_bubble(text=random_selection["text"],who=persona["name"])
                 play_sound(file)
                 
             else:
@@ -88,20 +87,20 @@ def main():
 
                 # transcribe audio to text with whisper-1 model
                 user_text = transcribe_audio(filename_input)
-                display("\n"+ user_text,color=USER)
+                chat_bubble_user(text=user_text)
                 
                 if not any(word in user_text for word in end_words):
                     # play wait sound while api calls are made
                     random_selection = persona["wait"][random.randint(0,len(persona["wait"])-1)]
                     file = "audio/personas/" + persona["path"] + "/" +  random_selection["filename"]
-                    display(random_selection["text"], color=BOT)
+                    chat_bubble(text=random_selection["text"],who=persona["name"])
                     play_sound(file,False)
 
                     # generate response from text with GPT-3 model
                     ai_response = query_chatgpt(user_text,persona["prompt"],history)
                     history.append((user_text, ai_response))
-                    display("\n"+ai_response, color=BOT)
-
+                    chat_bubble(text=ai_response,who=persona["name"])
+                    
                     # convert response to audio with google text-to-speech model
                     synthing(ai_response,filename_output,persona["tts_settings"])
 
@@ -111,7 +110,7 @@ def main():
                 else:
                     random_selection = persona["bye"][random.randint(0,len(persona["bye"])-1)]
                     file = "audio/personas/" + persona["path"] + "/" +  random_selection["filename"]
-                    display(random_selection["text"], color=BOT)
+                    chat_bubble(text=random_selection["text"],who=persona["name"])
                     play_sound(file)
                     main()
    

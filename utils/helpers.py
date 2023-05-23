@@ -42,22 +42,45 @@ def add_line_breaks(text, cols):
     else:
         return [text]
     
-def chat_bubble(text,who=None,align="left"):
+def chat_bubble(text,who=None):
     cols = 55 # Breite der Chatbubble
     text = add_line_breaks(text, cols)
-    bubble = ""
-
+    
+    bubble = "\n"
+    bubble += "\033[97m"
+    
     if who:
-        bubble = "╭" + "─" * (len(who)+2) + "╮\n"
-        bubble += "│ " + who + " " + "╰" + "─" * (cols - (len(who))-3) + "╮\n"
-        bubble += "│" + " " * cols + "│\n"
+        bubble += "╭" + "─" * (len(who)+2) + "╮\n"
+        bubble += "│ " + who + " " + "╰" + "─" * (cols - (len(who))-2) + "╮\n"
+        bubble += "│" + " " * (cols+1) + "│\n"
     else:
-        bubble = "╭" + "─" * cols + "╮\n"
+        bubble += "╭" + "─" * (cols+1) + "╮\n"
+
+    for line in text:
+        add_spaces = cols - len(line) 
+        bubble += "│ " + line + " " * add_spaces + "│\n"
+    bubble += "╰" + "─" * (cols+1) + "╯"
+    bubble +="\033[0m"
+    bubble += "\n"
+    print(bubble)
+
+
+def chat_bubble_user(text):
+    cols = 30 # Breite der Chatbubble
+    indent = 30
+    text = add_line_breaks(text, cols)
+    
+    bubble = "\n"
+    bubble += "\033[93m"
+    bubble += " "* indent + " "* (cols-4) + "╭" + "─" * 4 + "╮\n"
+    bubble += " "* indent + "╭" + "─" * (cols-5) + "╯ Du " + "│\n"
+    bubble += " "* indent + "│" + " " * cols + "│\n"
 
     for line in text:
         add_spaces = cols - len(line) - 1
-        bubble += "│ " + line + " " * add_spaces + "│\n"
-    bubble += "╰" + "─" * cols + "╯"
+        bubble += " "* indent + "│ " + line + " " * add_spaces + "│\n"
+    bubble += " "* indent + "╰" + "─" * cols + "╯"
+    bubble +="\033[0m"
     bubble += "\n"
     print(bubble)
 
