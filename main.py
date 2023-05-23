@@ -4,7 +4,7 @@
 import os, random
 from dotenv import load_dotenv
 import openai
-from utils.helpers import display, load_json, clear, time_it, play_sound
+from utils.helpers import display, load_json, clear, time_it, play_sound, chat_bubble, welcome
 from utils.recording import record_audio
 from utils.gtts_synthing import synthing
 
@@ -53,10 +53,11 @@ def main():
 
     play_sound("audio/boot/"+str(random.randint(1,7))+".mp3",False)
     clear()
-    display("Hallo, ich bin der Kietbot!", color=SYSTEM)
-    display("Bitte wähle eine Persona aus (1-3)", color=SYSTEM)
-    display("Sage 'Ende', wenn Du das Gespräch beenden möchtest.", color=SYSTEM)
-    display("Viel Spaß!", color=SYSTEM)
+
+    display(welcome(), color=SYSTEM)
+    chat_bubble(text="Hallo, ich bin der Kiezbot!\nBitte wähle eine Persona aus (1-3)\nSage 'Ende', wenn Du das Gespräch beenden möchtest. \nViel Spaß!",who="Kiezbot")
+    
+    
     display("\nOptionen: 1 = Biene, 2 = Roboter, 3 = Currywurst", color=SYSTEM)
 
     while True:

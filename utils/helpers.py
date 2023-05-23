@@ -19,6 +19,60 @@ def clear():
     # clear terminal
     os.system('cls' if os.name == 'nt' else 'clear')
 
+def add_line_breaks(text, cols):
+    """ 
+    Trennt längere Texte in mehrere Zeilen auf, damit sie in die Sprechblase passen.
+    """
+    
+    if len(text) > cols:
+        words = text.split()  # Trennt den Text in Wörter auf
+        lines = []
+        current_line = ""
+        
+        for word in words:
+            if len(current_line) + len(word) + 1 <= cols:
+                current_line += word + " "
+            else:
+                lines.append(current_line.strip())  # Fügt die aktuelle Zeile zu den Zeilen hinzu
+                current_line = word + " "
+        
+        lines.append(current_line.strip())  # Fügt die letzte Zeile hinzu
+        
+        return lines
+    else:
+        return [text]
+    
+def chat_bubble(text,who=None,align="left"):
+    cols = 50 # Breite der Chatbubble
+    text = add_line_breaks(text, cols)
+    bubble = ""
+
+    if who:
+        bubble = "╭" + "─" * (len(who)+2) + "╮\n"
+        bubble += "│ " + who + " " + "╰" + "─" * (cols - (len(who))-3) + "╮\n"
+        bubble += "│" + " " * cols + "│\n"
+    else:
+        bubble = "╭" + "─" * cols + "╮\n"
+
+    for line in text:
+        add_spaces = cols - len(line) - 1
+        bubble += "│ " + line + " " * add_spaces + "│\n"
+    bubble += "╰" + "─" * cols + "╯"
+    bubble += "\n"
+    print(bubble)
+
+
+def welcome():
+    text = "     .---.\n"
+    text+= "    } n n {       _     _             _\n"
+    text+= "     \_-_/       | |   (_)           | |           _ \n"
+    text+= ".'c .'|_|'. n`.  | |  _ _ _____ _____| |__   ___ _| |_ \n"
+    text+= "'--'  /_\  `--'  | |_/ ) | ___ (___  )  _ \ / _ (_   _)\n"
+    text+= "     /| |\       |  _ (| | ____|/ __/| |_) ) |_| || |_ \n"
+    text+= "    [_] [_]      |_| \_)_|_____|_____)____/ \___/  \__)\n\n"
+    return text
+
+
 def display(text: str, x: int = None, y: int = None, color: str = None) -> None:
     """
     Schreibt den angegebenen Text in der angegebenen Farbe und Position im Terminal.
