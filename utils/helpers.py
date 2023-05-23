@@ -92,7 +92,7 @@ def welcome():
     text+= ".'c .'|_|'. n`.  | |  _ _ _____ _____| |__   ___ _| |_ \n"
     text+= "'--'  /_\  `--'  | |_/ ) | ___ (___  )  _ \ / _ (_   _)\n"
     text+= "     /| |\       |  _ (| | ____|/ __/| |_) ) |_| || |_ \n"
-    text+= "    [_] [_]      |_| \_)_|_____|_____)____/ \___/  \__)\n\n"
+    text+= "    [_] [_]      |_| \_)_|_____|_____)____/ \___/  \__)\n"
     return text
 
 
@@ -172,6 +172,6 @@ def time_it(func):
         start = time.time()
         result = func(*args, **kwargs)
         end = time.time()
-        print(f"{func.__name__} dauerte {end - start} Sekunden.")
+        print(f"{func.__name__}: {round((end - start),2)} Sekunden.")
         return result
     return wrapper
