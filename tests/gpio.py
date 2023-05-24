@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 
 # GPIO-Pin für die LED
-LED_PIN = 8
+LED_PIN = 5
 
 def led_an():
     GPIO.setmode(GPIO.BCM)
