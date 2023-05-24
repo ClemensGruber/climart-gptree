@@ -14,4 +14,5 @@ def led_aus():
     GPIO.output(LED_PIN, GPIO.LOW)
 
 # Beispielaufrufe
-led_an()  # LED einschalten
+while True:
+  led_an()  # LED einschalten
