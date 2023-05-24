@@ -7,13 +7,13 @@ LED_PIN_RED = 3
 
 def led_an():
     GPIO.setmode(GPIO.BCM)
-    GPIO.setup(LED_PIN, GPIO.OUT)
-    GPIO.output(LED_PIN, GPIO.HIGH)
+    GPIO.setup(LED_PIN_GREEN, GPIO.OUT)
+    GPIO.output(LED_PIN_GREEN, GPIO.HIGH)
 
 def led_aus():
     GPIO.setmode(GPIO.BCM)
-    GPIO.setup(LED_PIN, GPIO.OUT)
-    GPIO.output(LED_PIN, GPIO.LOW)
+    GPIO.setup(LED_PIN_RED, GPIO.OUT)
+    GPIO.output(LED_PIN_RED, GPIO.LOW)
 
 # Initialisiere die GPIO
 GPIO.setmode(GPIO.BCM)
