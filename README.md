@@ -1,6 +1,6 @@
 # libs to install
 `sudo apt install mpg123` (mp3 player for Linux)
-
+`sudo apt-get install python-rpi.gpio python3-rpi.gpio` gpio lib
 
 ![](https://img.shields.io/badge/Built%20with%20%E2%9D%A4%EF%B8%8F-at%20Technologiestiftung%20Berlin-blue)
 

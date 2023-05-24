@@ -6,3 +6,4 @@ numpy==1.21.0
 python-dotenv==0.21.1
 soundfile==0.12.1
 sounddevice==0.4.6
+RPi.GPIO==0.7.1
