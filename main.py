@@ -52,6 +52,9 @@ def main():
     LED_GREEN = 4
     LED_RED = 17
 
+    led(LED_GREEN,"off")
+    led(LED_RED,"off")
+
     end_words = ["Ende","Auf Wiedersehen","Wechseln","Tschüss","Bye","End","Quit","Exit","end."]
 
     play_sound("audio/boot/"+str(random.randint(1,7))+".mp3",False)
