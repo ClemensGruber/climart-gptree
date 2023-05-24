@@ -85,10 +85,10 @@ def main():
             while True:
                 # record audio
                 display("recording...",color=ERROR)
-                led(LED_RED,"on")
+                led(LED_GREEN,"on")
                 record_audio(filename_input)
                 display("recording stopped.",color=ERROR)
-                led(LED_RED,"off")
+                led(LED_GREEN,"off")
 
                 # transcribe audio to text with whisper-1 model
                 user_text = transcribe_audio(filename_input)
@@ -104,13 +104,15 @@ def main():
                     # generate response from text with GPT-3 model
                     ai_response = query_chatgpt(user_text,persona["prompt"],history)
                     history.append((user_text, ai_response))
-                    chat_bubble(text=ai_response,who=persona["name"])
                     
                     # convert response to audio with google text-to-speech model
                     synthing(ai_response,filename_output,persona["tts_settings"])
+                    chat_bubble(text=ai_response,who=persona["name"])
 
                     # play audio response
+                    led(LED_RED,"on")
                     play_sound(filename_output)
+                    led(LED_RED,"off")
                 
                 else:
                     random_selection = persona["bye"][random.randint(0,len(persona["bye"])-1)]
