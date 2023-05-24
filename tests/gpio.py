@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 
 # GPIO-Pin für die LED
-LED_PIN_GREEN = 2
+LED_PIN_GREEN = 4
 LED_PIN_RED = 3
 
 def led_an():
