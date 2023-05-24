@@ -7,6 +7,7 @@ import openai
 from utils.helpers import display, load_json, clear, time_it, play_sound, chat_bubble, chat_bubble_user, welcome
 from utils.recording import record_audio
 from utils.gtts_synthing import synthing
+from utils.gpio import led
 
 @time_it
 def transcribe_audio(filename):
@@ -48,6 +49,8 @@ def main():
     USER = "yellow"
     BOT = "white"
     ERROR = "red"
+    LED_GREEN = 4
+    LED_RED = 17
 
     end_words = ["Ende","Auf Wiedersehen","Wechseln","Tschüss","Bye","End","Quit","Exit","end."]
 
@@ -82,8 +85,10 @@ def main():
             while True:
                 # record audio
                 display("recording...",color=ERROR)
+                led(LED_RED,"on")
                 record_audio(filename_input)
                 display("recording stopped.",color=ERROR)
+                led(LED_RED,"off")
 
                 # transcribe audio to text with whisper-1 model
                 user_text = transcribe_audio(filename_input)
