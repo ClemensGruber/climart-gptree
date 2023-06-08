@@ -71,6 +71,7 @@ def main():
 
         if code == "q":
             display("Programm beendet.", color=SYSTEM)
+            os.system("sudo shutdown now")
             break
         else:
             # check if code has a persona
