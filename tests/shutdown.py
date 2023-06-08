@@ -1,4 +1,4 @@
 import os
 
 # Herunterfahren des Computers
-os.system("shutdown now")
+os.system("sudo shutdown now")
