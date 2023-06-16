@@ -89,10 +89,10 @@ def main():
             while True:
                 # record audio
                 display("recording...",color=ERROR)
-                led(LED_GREEN,"on")
+                led(LED_RED,"on")
                 record_audio(filename_input)
                 display("recording stopped.",color=ERROR)
-                led(LED_GREEN,"off")
+                led(LED_RED,"off")
 
                 # transcribe audio to text with whisper-1 model
                 user_text = transcribe_audio(filename_input)
@@ -103,7 +103,9 @@ def main():
                     random_selection = persona["wait"][random.randint(0,len(persona["wait"])-1)]
                     file = "audio/personas/" + persona["path"] + "/" +  random_selection["filename"]
                     chat_bubble(text=random_selection["text"],who=persona["name"])
+                    led(LED_GREEN,"on")
                     play_sound(file,False)
+                    led(LED_GREEN,"off")
 
                     # generate response from text with GPT-3 model
                     ai_response = query_chatgpt(user_text,persona["prompt"],history)
@@ -114,15 +116,17 @@ def main():
                     chat_bubble(text=ai_response,who=persona["name"])
 
                     # play audio response
-                    led(LED_RED,"on")
+                    led(LED_GREEN,"on")
                     play_sound(filename_output)
-                    led(LED_RED,"off")
+                    led(LED_GREEN,"off")
                 
                 else:
                     random_selection = persona["bye"][random.randint(0,len(persona["bye"])-1)]
                     file = "audio/personas/" + persona["path"] + "/" +  random_selection["filename"]
                     chat_bubble(text=random_selection["text"],who=persona["name"])
+                    led(LED_GREEN,"on")
                     play_sound(file)
+                    led(LED_GREEN,"off")
                     main()
    
 # ------------------------------
