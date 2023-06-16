@@ -1,3 +1,26 @@
+# set autostart on raspbian
+cd .config/autostart
+touch kiezbot.desktop
+nano kiezbot.desktop
+
+[Desktop Entry]
+Type=Application
+Name=kiezbot
+Exec=cool-retro-term --fullscreen -e /home/pi/Code/kiezbot/start.sh
+
+# create entry for desktop start menu
+cd .local/share/applications
+touch kiezbot.desktop
+nano kiezbot.desktop
+
+[Desktop Entry]
+Type=Application
+Name=kiezbot
+Terminal=false
+Type=Application
+Categories=Application
+Exec=cool-retro-term --fullscreen -e /home/pi/Code/kiezbot/start.sh
+
 # libs to install
 `sudo apt install mpg123` (mp3 player for Linux)
 `sudo apt-get install python-rpi.gpio python3-rpi.gpio` gpio lib
