@@ -61,10 +61,9 @@ def main():
     clear()
 
     display(welcome(), color=SYSTEM)
-    chat_bubble(text="Hallo, ich bin der Kiezbot!\nBitte wähle eine Persona aus.\nSprich 'Ende', wenn Du das Gespräch beenden möchtest. \nViel Spaß!",who="Kiezbot")
+    chat_bubble(text="Hallo, ich bin der Kiezbot!\nBitte stelle eine der Figuren auf das runde Feld, um mit ihr zu sprechen.\nSage 'Vielen Dank, Ende', wenn Du das Gespräch beenden möchtest. \nViel Spaß!",who="Kiezbot")
     
-    display("Optionen: 1 = Biene, 2 = Roboter, 3 = Currywurst")
-
+    
     while True:
         history = []
         code = input()
