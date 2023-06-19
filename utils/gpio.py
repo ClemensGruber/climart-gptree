@@ -1,9 +1,12 @@
 # simple LED on/off functionality
+import os
 
-import RPi.GPIO as GPIO
+if os.name == "Linux":
+  import RPi.GPIO as GPIO
 
 
 def led(LED, state="on"):
+  if os.name == "Linux":
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(LED, GPIO.OUT)
     if state == "on":

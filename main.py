@@ -9,14 +9,18 @@ from utils.recording import record_audio
 from utils.gtts_synthing import synthing
 from utils.gpio import led
 
-@time_it
+
+def is_linux():
+    return os.name == "posix"
+
+#@time_it
 def transcribe_audio(filename):
     audio_file = open(filename, "rb")
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
     return transcript.text
 
 
-@time_it
+#@time_it
 def query_chatgpt(text,system,history):
     MAX_CONTEXT_QUESTIONS = 10
     messages = []
