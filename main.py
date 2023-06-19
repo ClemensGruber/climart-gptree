@@ -1,7 +1,7 @@
 # Kiezbot
 # Conversational bot for the CityLAB Berlin
 
-import os, random, sys, select
+import os, random
 from dotenv import load_dotenv
 import openai
 from utils.helpers import display, load_json, clear, time_it, play_sound, chat_bubble, chat_bubble_user, welcome, clear_input_buffer
@@ -36,23 +36,18 @@ def query_chatgpt(text,system,history):
     reply = response["choices"][0]["message"]["content"]
     return reply
 
+
+def end_conversation(persona):
+    random_selection = persona["bye"][random.randint(0,len(persona["bye"])-1)]
+    file = f"audio/personas/{persona['path']}/{random_selection['filename']}"
+    chat_bubble(text=random_selection["text"],who=persona["name"])
+    led(LED_GREEN,"on")
+    play_sound(file)
+    led(LED_GREEN,"off")
+
 # ------------------------------
 
 def main():
-    # Load environment variables from .env file
-    load_dotenv()
-    openai.api_key = os.getenv("OPENAI_API_KEY")
-
-    # config
-    filename_input = "audio/input.wav"
-    filename_output = "audio/output.mp3"
-    personas = load_json("personas.json")
-    SYSTEM = "green"
-    USER = "yellow"
-    BOT = "white"
-    ERROR = "red"
-    LED_GREEN = 4
-    LED_RED = 17
 
     led(LED_GREEN,"off")
     led(LED_RED,"off")
@@ -91,10 +86,10 @@ def main():
 
             while True:
                 # record audio
-                display("recording...",color=ERROR)
+                #display("recording...",color=ERROR)
                 led(LED_RED,"on")
                 record_audio(filename_input)
-                display("recording stopped.",color=ERROR)
+                #display("recording stopped.",color=ERROR)
                 led(LED_RED,"off")
 
                 # transcribe audio to text with whisper-1 model
@@ -124,15 +119,25 @@ def main():
                     led(LED_GREEN,"off")
                 
                 else:
-                    random_selection = persona["bye"][random.randint(0,len(persona["bye"])-1)]
-                    file = f"audio/personas/{persona['path']}/{random_selection['filename']}"
-                    chat_bubble(text=random_selection["text"],who=persona["name"])
-                    led(LED_GREEN,"on")
-                    play_sound(file)
-                    led(LED_GREEN,"off")
+                    end_conversation(persona)
                     main()
    
 # ------------------------------
 
 if __name__ == '__main__':
+
+    # Load environment variables from .env file
+    load_dotenv()
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    # config
+    filename_input = "audio/input.wav"
+    filename_output = "audio/output.mp3"
+    personas = load_json("personas.json")
+    SYSTEM = "green"
+    USER = "yellow"
+    BOT = "white"
+    ERROR = "red"
+    LED_GREEN = 4
+    LED_RED = 17
+
     main()
