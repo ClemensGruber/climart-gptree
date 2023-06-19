@@ -2,8 +2,6 @@
 # expects: text, filename, settings
 # returns: audio file
 
-from utils.helpers import time_it
-
 """Google Cloud Text-To-Speech API sample application .
 """
 
@@ -12,7 +10,7 @@ def string_to_enum(enum_class, enum_string):
     enum_obj = getattr(enum_class, enum_parts[-1])
     return enum_obj
 
-@time_it
+
 def synthing(text,filename,settings):
     """Synthesizes speech from the input string of text or ssml.
     Make sure to be working in a virtual environment.

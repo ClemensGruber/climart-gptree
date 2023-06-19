@@ -4,15 +4,12 @@
 import os, random, sys, select
 from dotenv import load_dotenv
 import openai
-from utils.helpers import display, load_json, clear, time_it, play_sound, chat_bubble, chat_bubble_user, welcome
+from utils.helpers import display, load_json, clear, time_it, play_sound, chat_bubble, chat_bubble_user, welcome, clear_input_buffer
 from utils.recording import record_audio
 from utils.gtts_synthing import synthing
 from utils.gpio import led
 
-def clear_input_buffer():
-    while sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
-        # Read and discard the input
-        _ = sys.stdin.readline()
+
 
 #@time_it
 def transcribe_audio(filename):

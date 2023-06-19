@@ -11,7 +11,8 @@
     },
     "greetings": [
       {"text":"Hallo ich bin die Biene! Frage mich doch was zur Natur!", "filename":"greetings1.mp3"},
-      {"text":"Summ summ summ ich bin Kiki die freundliche Biene. Was möchtest Du wissen?", "filename":"greetings2.mp3"}
+      {"text":"Summ summ summ ich bin Kiki die freundliche Biene. Was möchtest Du wissen?", "filename":"greetings2.mp3"},
+      {"text":"Hallo! Ich bin die freundliche Biene Kiki und ich liebe die Natur! Magst Du Blumen?", "filename":"greetings3.mp3"}
     ],
     "wait": [
       {"text":"Ich überlege, einen Augenblick, summ!", "filename":"wait1.mp3"},

@@ -15,6 +15,11 @@ def save_json(filename, data):
     with open(os.path[0] + '/' + filename, 'w') as outfile:
         json.dump(data, outfile, indent=4)
 
+def clear_input_buffer():
+    while sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
+        # Read and discard the input
+        _ = sys.stdin.readline()
+        
 def clear():
     # clear terminal
     os.system('cls' if os.name == 'nt' else 'clear')
