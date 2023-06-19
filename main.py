@@ -1,7 +1,7 @@
 # Kiezbot
 # Conversational bot for the CityLAB Berlin
 
-import os, random
+import os, random, sys, select
 from dotenv import load_dotenv
 import openai
 from utils.helpers import display, load_json, clear, time_it, play_sound, chat_bubble, chat_bubble_user, welcome
@@ -9,9 +9,10 @@ from utils.recording import record_audio
 from utils.gtts_synthing import synthing
 from utils.gpio import led
 
-
-def is_linux():
-    return os.name == "posix"
+def clear_input_buffer():
+    while sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
+        # Read and discard the input
+        _ = sys.stdin.readline()
 
 #@time_it
 def transcribe_audio(filename):
@@ -61,7 +62,7 @@ def main():
 
     end_words = ["Ende","Auf Wiedersehen","Wechseln","Tschüss","Bye","End","Quit","Exit","end."]
 
-    play_sound("audio/boot/"+str(random.randint(1,7))+".mp3",False)
+    #play_sound("audio/boot/"+str(random.randint(1,7))+".mp3",False)
     clear()
 
     display(welcome(), color=SYSTEM)
@@ -70,6 +71,7 @@ def main():
     
     while True:
         history = []
+        clear_input_buffer()
         code = input()
 
         if code == "0004632310":
@@ -88,6 +90,7 @@ def main():
                 
             else:
                 display("Input not recognized: "+ code, color=ERROR)
+                main()
 
             while True:
                 # record audio

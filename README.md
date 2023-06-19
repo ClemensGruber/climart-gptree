@@ -8,6 +8,10 @@ Type=Application
 Name=kiezbot
 Exec=cool-retro-term --fullscreen -e /home/pi/Code/kiezbot/start.sh
 
+# install dependencies
+
+`python3 -m pip install -r requirements.txt`
+
 # create entry for desktop start menu
 cd .local/share/applications
 touch kiezbot.desktop
