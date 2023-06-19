@@ -84,7 +84,7 @@ def main():
             if code in personas:
                 persona = personas[code]
                 random_selection = persona["greetings"][random.randint(0,len(persona["greetings"])-1)]
-                file = "audio/personas/" + persona["path"] + "/" +  random_selection["filename"]
+                file = f"audio/personas/{persona['path']}/{random_selection['filename']}"
                 chat_bubble(text=random_selection["text"],who=persona["name"])
                 play_sound(file)
                 
@@ -107,7 +107,7 @@ def main():
                 if not any(word in user_text for word in end_words):
                     # play wait sound while api calls are made
                     random_selection = persona["wait"][random.randint(0,len(persona["wait"])-1)]
-                    file = "audio/personas/" + persona["path"] + "/" +  random_selection["filename"]
+                    file = f"audio/personas/{persona['path']}/{random_selection['filename']}"
                     chat_bubble(text=random_selection["text"],who=persona["name"])
                     led(LED_GREEN,"on")
                     play_sound(file,False)
@@ -128,7 +128,7 @@ def main():
                 
                 else:
                     random_selection = persona["bye"][random.randint(0,len(persona["bye"])-1)]
-                    file = "audio/personas/" + persona["path"] + "/" +  random_selection["filename"]
+                    file = f"audio/personas/{persona['path']}/{random_selection['filename']}"
                     chat_bubble(text=random_selection["text"],who=persona["name"])
                     led(LED_GREEN,"on")
                     play_sound(file)
