@@ -72,7 +72,7 @@ def main():
         history = []
         code = input()
 
-        if code == "q":
+        if code == "0004632310":
             display("Programm beendet.", color=SYSTEM)
             os.system("sudo shutdown now")
             break
