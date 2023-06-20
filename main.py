@@ -88,9 +88,13 @@ def main():
                 # record audio
                 #display("recording...",color=ERROR)
                 led(LED_RED,"on")
-                record_audio(filename_input)
+                timeout = record_audio(filename_input)
                 #display("recording stopped.",color=ERROR)
                 led(LED_RED,"off")
+                
+                if timeout:
+                    end_conversation(persona)
+                    main()
 
                 # transcribe audio to text with whisper-1 model
                 user_text = transcribe_audio(filename_input)
