@@ -8,6 +8,7 @@
 
 from helpers import load_json
 from gtts_synthing import synthing
+import os
 
 def generate_audio(personas,type="greetings"):
     # iterate over all personas from the json file
@@ -16,7 +17,12 @@ def generate_audio(personas,type="greetings"):
       
       for item in persona[type]:
         text = item["text"]
-        filename = "./audio/personas/" + persona["path"] + "/" + item["filename"]
+
+        path = "./audio/personas/" + persona["path"]
+        if not os.path.exists(path):
+          os.makedirs(path)
+
+        filename = path + "/" + item["filename"]
         print(text)
         print(filename)
         synthing(text, filename, settings)
