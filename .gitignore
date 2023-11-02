@@ -1,0 +1,32 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Dependency directories
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# dotenv environment variables file
+.env
+.env.test
+
+# virtal environments
+env/
+venv/
+myenv/
+
+.DS_Store
+__pycache__/
+
+# project specific
+audio/input.wav
+audio/output.mp3
