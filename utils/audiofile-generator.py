@@ -17,12 +17,16 @@ def generate_audio(personas,type="greetings"):
       
       for item in persona[type]:
         text = item["text"]
+<<<<<<< HEAD
 
         path = "./audio/personas/" + persona["path"]
         if not os.path.exists(path):
           os.makedirs(path)
 
         filename = path + "/" + item["filename"]
+=======
+        filename = "../audio/personas/" + persona["path"] + "/" + item["filename"]
+>>>>>>> main
         print(text)
         print(filename)
         synthing(text, filename, settings)
@@ -30,6 +34,5 @@ def generate_audio(personas,type="greetings"):
 if __name__ == "__main__":
     personas = load_json("../personas.json")
     generate_audio(personas,type="greetings")
-    generate_audio(personas,type="idle")
     generate_audio(personas,type="wait")
     generate_audio(personas,type="bye")
