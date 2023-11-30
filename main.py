@@ -80,15 +80,15 @@ def main():
     filename_output = "audio/output.mp3"
     personas = load_json("personas.json")
 
-    p = pyaudio.PyAudio()
-    info = p.get_host_api_info_by_index(0)
-    numdevices = info.get('deviceCount')
-    for i in range(numdevices):
-        device_info = p.get_device_info_by_host_api_device_index(0, i)
-        device_name = device_info['name']
-        print(f"Device {i}: {device_name}")
+    #p = pyaudio.PyAudio()
+    #info = p.get_host_api_info_by_index(0)
+    #numdevices = info.get('deviceCount')
+    #for i in range(numdevices):
+    #    device_info = p.get_device_info_by_host_api_device_index(0, i)
+    #    device_name = device_info['name']
+    #    print(f"Device {i}: {device_name}")
 
-    input_device = int(input("Wähle ein Gerät für die Audio-Eingabe: \n"))
+    #input_device = int(input("Wähle ein Gerät für die Audio-Eingabe: \n"))
 
     options = [f"{code} = {persona['name']}" for code, persona in personas.items()]
     code = input(f"Optionen: {', '.join(options)}, q für Beenden. \n")
@@ -104,19 +104,22 @@ def main():
 
             greetings = "audio/personas/" + persona["path"] + "/" +  random.choice(persona["greetings"])["filename"]
             #print(greetings)
-            os.system(f"afplay {greetings}")
+            #os.system(f"afplay {greetings}")
+            os.system(f"ffplay -v 0 -nodisp -autoexit {greetings}")
         else:
             display("Input not recognized: " + code)
 
         while True:
             # record audio
             display("recording...")
-            record_audio(filename_input, input_device)
+            record_audio(filename_input)
             display("recording stopped.")
 
             # play wait sound while api calls are made
-            wait = "audio/personas/" + persona["path"] + "/" + random.choice(persona["wait"])["filename"]
-            subprocess.Popen(["afplay", wait])
+            wait = os.getcwd() + "/audio/personas/" + persona["path"] + "/" + random.choice(persona["wait"])["filename"]
+            #subprocess.Popen(["afplay", wait])
+            #subprocess.Popen(["ffplay -v 0 -nodisp -autoexit", wait])
+            os.system(f"ffplay -v 0 -nodisp -autoexit {wait}")
 
             # transcribe audio to text with whisper-1 model
             user_text = transcribe_audio(filename_input)
@@ -133,10 +136,12 @@ def main():
                 synthing(ai_response,filename_output,persona["tts_settings"])
 
                 # play audio response
-                os.system(f"afplay {filename_output}")
+                #^  os.system(f"afplay {filename_output}")
+                os.system(f"ffplay -v 0 -nodisp -autoexit {filename_output}")
             else:
                 byebye = "audio/personas/" + persona["path"] + "/" + random.choice(persona["bye"])["filename"]
-                os.system(f"afplay {byebye}")
+                #os.system(f"afplay {byebye}")
+                os.system(f"ffplay -v 0 -nodisp -autoexit {byebye}")
                 main()
    
 # ------------------------------

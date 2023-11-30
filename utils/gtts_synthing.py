@@ -10,6 +10,7 @@ def string_to_enum(enum_class, enum_string):
     enum_obj = getattr(enum_class, enum_parts[-1])
     return enum_obj
 
+
 def synthing(text,filename,settings):
     """Synthesizes speech from the input string of text or ssml.
     Make sure to be working in a virtual environment.

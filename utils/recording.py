@@ -2,11 +2,12 @@ import pyaudio
 from scipy.io.wavfile import write
 import numpy as np
 
-def record_audio(filename, audio_device):
+def record_audio(filename):
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
-    RATE = 22050  # samples per second
+    #RATE = 22050  # samples per second
+    RATE = 16000 # for the anker on raspi
     THRESHOLD = 1200  # Adjust this value to set the sensitivity of the voice detection
     SILENCE_LIMIT = 2  # Number of seconds of silence before stopping the recording
 
@@ -15,7 +16,7 @@ def record_audio(filename, audio_device):
                     channels=CHANNELS,
                     rate=RATE,
                     input=True,
-                    input_device_index=audio_device,
+                    #input_device_index=audio_device,
                     frames_per_buffer=CHUNK)
 
     # Wait for the user to start speaking
