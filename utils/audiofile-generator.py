@@ -9,8 +9,10 @@
 from helpers import load_json
 from gtts_synthing import synthing
 import os
+from dotenv import load_dotenv
+from openai import OpenAI
 
-def generate_audio(personas,type="greetings"):
+def generate_audio(client, personas,type="greetings"):
     # iterate over all personas from the json file
     for key, persona in personas.items():
       settings = persona["tts_settings"]
@@ -25,10 +27,13 @@ def generate_audio(personas,type="greetings"):
         filename = path + "/" + item["filename"]
         print(text)
         print(filename)
-        synthing(text, filename, settings)
+        synthing(client, text, filename)
 
 if __name__ == "__main__":
+    load_dotenv()
+    client = OpenAI()
+
     personas = load_json("../personas.json")
-    generate_audio(personas,type="greetings")
-    generate_audio(personas,type="wait")
-    generate_audio(personas,type="bye")
+    generate_audio(client, personas,type="greetings")
+    generate_audio(client, personas,type="wait")
+    generate_audio(client, personas,type="bye")

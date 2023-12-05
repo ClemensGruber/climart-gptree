@@ -3,7 +3,7 @@
 
 import os, subprocess, random, time
 from dotenv import load_dotenv
-import openai
+from openai import OpenAI
 from utils.helpers import load_json
 from utils.weather import add_current_context
 from utils.recording import record_audio
@@ -37,10 +37,10 @@ def play_audio_on_device(device_index, audio_file_path):
         p.terminate()
 
 
-def transcribe_audio(filename):
+def transcribe_audio(client, filename):
     start = time.time()
     audio_file = open(filename, "rb")
-    transcript = openai.Audio.transcribe("whisper-1", audio_file)
+    transcript = client.audio.transcriptions.create(model="whisper-1", file=audio_file)
     display("Transcription took " + str(time.time() - start) + " seconds.")
     return transcript.text
 
@@ -48,7 +48,7 @@ def display(text):
     os.system('clear')
     print(text)
 
-def query_chatgpt(text,system,history):
+def query_chatgpt(client, text,system,history):
     start = time.time()
     MAX_CONTEXT_QUESTIONS = 10
     messages = []
@@ -60,35 +60,30 @@ def query_chatgpt(text,system,history):
         messages.append({ "role": "assistant", "content": answer })
 
     messages.append({"role": "user", "content": text})
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=messages)
-    reply = response["choices"][0]["message"]["content"]
-    display("ChatGPT took " + str(time.time() - start) + " seconds.")
+    reply = response.choices[0].message.content
     return reply
+
+    #for chunk in client.chat.completions.create(model="gpt-3.5-turbo", messages=messages, stream=True):
+    #    if (text_chunk := chunk.choices[0]["delta"].content):
+    #         yield text_chunk
 
 # ------------------------------
 
 def main():
     # Load environment variables from .env file
     load_dotenv()
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    # not needed in new interface
+    #openai.api_key = os.getenv("OPENAI_API_KEY")
+    client = OpenAI()
     history = []
 
     # config
     filename_input = "audio/input.wav"
     filename_output = "audio/output.mp3"
     personas = load_json("personas.json")
-
-    #p = pyaudio.PyAudio()
-    #info = p.get_host_api_info_by_index(0)
-    #numdevices = info.get('deviceCount')
-    #for i in range(numdevices):
-    #    device_info = p.get_device_info_by_host_api_device_index(0, i)
-    #    device_name = device_info['name']
-    #    print(f"Device {i}: {device_name}")
-
-    #input_device = int(input("Wähle ein Gerät für die Audio-Eingabe: \n"))
 
     options = [f"{code} = {persona['name']}" for code, persona in personas.items()]
     code = input(f"Optionen: {', '.join(options)}, q für Beenden. \n")
@@ -122,18 +117,16 @@ def main():
             os.system(f"ffplay -v 0 -nodisp -autoexit {wait}")
 
             # transcribe audio to text with whisper-1 model
-            user_text = transcribe_audio(filename_input)
+            user_text = transcribe_audio(client, filename_input)
             display(user_text)
 
             if "Ende" not in user_text:
                 # generate response from text with GPT-3 model
                 system_context=add_current_context(persona["prompt"])
-                ai_response = query_chatgpt(user_text,system_context,history)
+                ai_response = query_chatgpt(client, user_text,system_context,history)
                 history.append((user_text, ai_response))
                 display(ai_response)
-
-                # convert response to audio with google text-to-speech model
-                synthing(ai_response,filename_output,persona["tts_settings"])
+                synthing(client, ai_response,filename_output)
 
                 # play audio response
                 #^  os.system(f"afplay {filename_output}")
