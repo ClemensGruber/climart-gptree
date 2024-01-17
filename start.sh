@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd ~/Code/kiezbot
-source myenv/bin/activate
+cd ~/gptree
+source venv-gptree/bin/activate
 python3 main.py
