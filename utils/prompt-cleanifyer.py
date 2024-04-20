@@ -20,7 +20,7 @@ def main(input_file):
     with open(output_file, 'w', encoding='utf-8') as file:
         file.write(updated_markdown)
 
-    print("Markdown-Datei erfolgreich aktualisiert. Neue Datei erstellt:", output_file)
+    print("File successfully updated, new file created:", output_file)
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
